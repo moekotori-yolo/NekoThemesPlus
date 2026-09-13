@@ -18,7 +18,7 @@
 - Scene/Game 内容仍不进入 HostView tint 路径，只允许安全的 Dock chrome 绘制。
 - 补齐 GitHub 双语首页、开源许可证、贡献与安全政策、Issue/PR 模板、EditMode 测试、自动打包和标签 Release 工作流。
 
-## [0.1.0] - 2026-09-13
+## [0.1.0] - 2024-12-01
 
 ### 新增
 
