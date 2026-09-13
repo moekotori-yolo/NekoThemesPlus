@@ -6,7 +6,6 @@
 
 NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题扩展。它提供连续背景、独立窗口透明度、GPU 调色与模糊、Dock 栏染色、中文界面，以及可分享的 `.nekotheme` 主题文件。
 
-> 发布前运行 `./Scripts/Set-GitHubOwner.ps1 -Owner 你的用户名`，自动替换仓库链接中的 `OWNER` 占位符。功能使用不受这个占位符影响。
 
 [English](README.en.md) · [中文手册](Packages/com.neko.themesplus/Documentation~/README.zh-CN.md) · [更新日志](Packages/com.neko.themesplus/CHANGELOG.md) · [参与贡献](CONTRIBUTING.md)
 
