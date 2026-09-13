@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -61,7 +61,7 @@ jobs:
       UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run Unity EditMode tests
         uses: game-ci/unity-test-runner@v4
