@@ -7,6 +7,7 @@ using NekoThemesPlus.Reflection;
 using NekoThemesPlus.Native;
 using NekoThemesPlus.Windows;
 using NekoThemesPlus.Theme;
+using NekoThemesPlus.Updates;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -36,6 +37,8 @@ namespace NekoThemesPlus.UI
         private Label statusLabel;
         private Label supportLabel;
         private Image previewImage;
+        private Label updateStatusLabel;
+        private bool updateUiRefreshQueued;
         private string currentPage = "Global";
 
         [MenuItem("Window/Neko Themes Plus/设置", priority = 2000)]
@@ -83,12 +86,15 @@ namespace NekoThemesPlus.UI
             BackgroundManager.BackgroundChanged += OnBackgroundChanged;
             NekoThemesPlusManager.StateChanged -= OnStateChanged;
             NekoThemesPlusManager.StateChanged += OnStateChanged;
+            NekoThemesPlusUpdateService.StatusChanged -= OnUpdateStatusChanged;
+            NekoThemesPlusUpdateService.StatusChanged += OnUpdateStatusChanged;
         }
 
         private void OnDisable()
         {
             BackgroundManager.BackgroundChanged -= OnBackgroundChanged;
             NekoThemesPlusManager.StateChanged -= OnStateChanged;
+            NekoThemesPlusUpdateService.StatusChanged -= OnUpdateStatusChanged;
         }
 
         public void CreateGUI()
@@ -268,6 +274,45 @@ namespace NekoThemesPlus.UI
             VisualElement presets = AddCard(T("快速预设", "Quick presets"), T("应用调校好的起点，然后在背景与玻璃效果页面继续调整。", "Apply a tuned starting point and continue adjusting it on the Background and Glass pages."));
             AddPresetButtons(presets);
 
+            VisualElement updates = AddCard(
+                T("自动更新", "Automatic updates"),
+                T("每天检查一次 GitHub 稳定版；确认后保存工程，并由 Unity Package Manager 安装标签版本。", "Checks GitHub stable releases once per day. After confirmation, saves the project and installs the tagged version through Unity Package Manager."));
+            Toggle automaticUpdates = new Toggle(T("自动检查更新", "Automatically check for updates")) { value = settings.automaticallyCheckForUpdates };
+            automaticUpdates.RegisterValueChangedCallback(evt =>
+            {
+                settings.automaticallyCheckForUpdates = evt.newValue;
+                settings.SaveSettings();
+            });
+            updates.Add(automaticUpdates);
+            updates.Add(new Label(T("当前版本：v", "Current version: v") + NekoThemesPlusConstants.Version));
+            if (!string.IsNullOrEmpty(NekoThemesPlusUpdateService.LatestVersion))
+            {
+                updates.Add(new Label(T("GitHub 最新版：v", "Latest GitHub version: v") + NekoThemesPlusUpdateService.LatestVersion));
+            }
+
+            updateStatusLabel = new Label(NekoThemesPlusUpdateService.Status);
+            updateStatusLabel.AddToClassList("neko-card-description");
+            updates.Add(updateStatusLabel);
+            VisualElement updateButtons = AddRow(updates);
+            Button checkButton = new Button(delegate { NekoThemesPlusUpdateService.CheckNow(true); }) { text = T("立即检查", "Check Now") };
+            checkButton.SetEnabled(!NekoThemesPlusUpdateService.IsChecking && !NekoThemesPlusUpdateService.IsInstalling);
+            updateButtons.Add(checkButton);
+            if (NekoThemesPlusUpdateService.HasUpdate)
+            {
+                Button installButton = new Button(NekoThemesPlusUpdateService.InstallLatest)
+                {
+                    text = T("保存并更新到 v", "Save and Update to v") + NekoThemesPlusUpdateService.LatestVersion
+                };
+                installButton.AddToClassList("neko-primary-button");
+                updateButtons.Add(installButton);
+            }
+
+            updateButtons.Add(new Button(NekoThemesPlusUpdateService.OpenReleasesPage) { text = T("查看 Release", "View Releases") });
+            AddMessage(
+                T("源码嵌入或本地开发包不会自动覆盖；此时会打开 Release 页面。更新会触发 Unity 正常脚本重编译，不会热替换正在运行的 DLL。", "Embedded/local development packages are never overwritten automatically; the Releases page opens instead. Updates use Unity's normal script recompilation and never hot-swap a running DLL."),
+                "neko-warning",
+                updates);
+
             VisualElement preview = AddCard(T("背景预览", "Background preview"), T("修改背景参数时，缓存的 GPU 处理结果会实时更新。", "The cached GPU result updates as background parameters change."));
             AddPreview(preview);
 
@@ -416,6 +461,8 @@ namespace NekoThemesPlus.UI
             diagnostics.Add(new Label(T("UI Toolkit 文字元素：", "UI Toolkit text elements: ") + WindowHookManager.ThemedTextElementCount));
             diagnostics.Add(new Label(T("IMGUI 文字样式：", "IMGUI text styles: ") + EditorStyleController.ThemedStyleCount));
             diagnostics.Add(new Label(T("背景状态：", "Background status: ") + (string.IsNullOrEmpty(BackgroundManager.LastError) ? T("就绪", "Ready") : BackgroundManager.LastError)));
+            diagnostics.Add(new Label(T("更新状态：", "Update status: ") + NekoThemesPlusUpdateService.Status));
+            diagnostics.Add(new Label(T("插件安装来源：", "Package source: ") + NekoThemesPlusUpdateService.InstallationSource));
             Button reportButton = new Button(delegate
             {
                 NekoThemesPlusDiagnostics.LogAndCopyReport();
@@ -930,6 +977,31 @@ namespace NekoThemesPlus.UI
             NekoThemesPlusSettings.instance.language = language;
             NekoThemesPlusSettings.instance.SaveSettings();
             CreateGUI();
+        }
+
+        private void OnUpdateStatusChanged()
+        {
+            if (updateStatusLabel != null)
+            {
+                updateStatusLabel.text = NekoThemesPlusUpdateService.Status;
+            }
+
+            if (currentPage != "Global" || updateUiRefreshQueued)
+            {
+                return;
+            }
+
+            updateUiRefreshQueued = true;
+            EditorApplication.delayCall += RefreshUpdateUi;
+        }
+
+        private void RefreshUpdateUi()
+        {
+            updateUiRefreshQueued = false;
+            if (this != null && currentPage == "Global")
+            {
+                ShowPage(currentPage);
+            }
         }
 
         private static string PresetDisplayName(string preset)

@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-NekoThemesPlus 0.4.0 includes an adapted implementation of the HostView delegate-hooking and Dock chrome-painting technique from:
+NekoThemesPlus 0.5.0 includes an adapted implementation of the HostView delegate-hooking and Dock chrome-painting technique from:
 
 - Project: UniPrism
 - Repository: https://github.com/System32X-code/UniPrism

@@ -7,13 +7,13 @@ Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸、彩色磨砂玻�
 - 正式目标：Unity `2022.3.42f1` LTS
 - 兼容范围：Unity `2022.3.x` LTS
 - 系统：Windows 10 / Windows 11
-- 当前版本：`0.4.0`
+- 当前版本：`0.5.0`
 
 ## 安装
 
 在 Unity 中打开 **Window > Package Manager**，点击左上角 **+**：
 
-1. 成品压缩包：选择 **Add package from tarball...**，打开 `com.neko.themesplus-0.4.0.tgz`。
+1. 成品压缩包：选择 **Add package from tarball...**，打开 `com.neko.themesplus-0.5.0.tgz`。
 2. 源码目录：选择 **Add package from disk...**，打开本包的 `package.json`。
 
 本开发项目已经以内嵌包方式安装，无需重复安装。编译完成后，通过 **Window > Neko Themes Plus > 设置** 打开设置中心。
@@ -41,6 +41,7 @@ Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸、彩色磨砂玻�
 - 9 个内置预设（含“樱花磨砂”）、自定义选择强调条、简体中文/English 界面。
 - Dock 标签栏/边框染色，以及可复制到剪贴板的完整诊断报告。
 - `.nekotheme` 单文件主题导入/导出，可内嵌全局壁纸和四张区域壁纸；单张上限 64 MB、合计上限 96 MB。
+- 设置首页每日检查 GitHub 稳定 Release，确认保存后由 Unity Package Manager 一键更新。
 - 设置保存在 `ProjectSettings/NekoThemesPlusSettings.asset`，重启自动恢复。
 - Disable、域重载和退出时移除注入元素、恢复 GUIStyle、释放纹理和原生效果。
 - Windows 深色标题栏、圆角、Mica、Acrylic 实验选项，默认关闭。

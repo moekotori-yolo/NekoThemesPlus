@@ -175,5 +175,24 @@ namespace NekoThemesPlus.Tests
             Assert.That(style.onActive.textColor, Is.EqualTo(original));
             Assert.That(style.onFocused.textColor, Is.EqualTo(original));
         }
+
+        [TestCase("0.5.0", "0.4.0", true)]
+        [TestCase("v1.0.0", "0.9.9", true)]
+        [TestCase("0.4.0", "0.4.0", false)]
+        [TestCase("0.3.9", "0.4.0", false)]
+        [TestCase("0.5.0-beta.1", "0.4.0", false)]
+        [TestCase("invalid", "0.4.0", false)]
+        public void UpdateVersionComparison_UsesStableSemanticVersions(string candidate, string current, bool expected)
+        {
+            Type updater = Type.GetType(
+                "NekoThemesPlus.Updates.NekoThemesPlusUpdateService, NekoThemesPlus.Editor",
+                false);
+            Assert.That(updater, Is.Not.Null);
+            MethodInfo comparison = updater.GetMethod(
+                "IsNewerVersion",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            Assert.That(comparison, Is.Not.Null);
+            Assert.That((bool)comparison.Invoke(null, new object[] { candidate, current }), Is.EqualTo(expected));
+        }
     }
 }

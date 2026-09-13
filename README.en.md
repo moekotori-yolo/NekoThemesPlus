@@ -22,6 +22,7 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Reversible primary and secondary text colors for both UI Toolkit and legacy IMGUI.
 - Simplified Chinese and English UI, nine presets including Sakura Frost, safe mode, and a copyable diagnostic report.
 - Portable `.nekotheme` import/export with an optional embedded wallpaper.
+- Daily GitHub stable-release checks and confirmed one-click updates through Unity Package Manager.
 - Experimental Windows Mica/Acrylic integration, disabled by default.
 
 ## Compatibility
@@ -29,7 +30,7 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Unity `2022.3.x` LTS; primary target: `2022.3.42f1`
 - Windows 10 and Windows 11
 - Editor only; no runtime/player assembly is included
-- Current version: `0.4.0`
+- Current version: `0.5.0`
 
 The release pipeline has also been smoke-tested with Unity `2022.3.22f1c1`. Internal hooks are disabled by default outside Unity 2022.3.
 
@@ -44,10 +45,14 @@ Download `NekoThemesPlus-<version>-Windows.zip` from Releases, extract it, then 
 Replace `OWNER` with the repository owner:
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.4.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.5.0
 ```
 
 After compilation, open **Window > Neko Themes Plus > Settings**.
+
+## Updates
+
+The settings home page checks the latest stable GitHub Release once per day and also offers a manual check. After confirmation, Unity prompts to save modified scenes, switches the package to the matching Git tag through Package Manager, and recompiles normally. Embedded/local development packages are protected from automatic replacement.
 
 ## Build
 

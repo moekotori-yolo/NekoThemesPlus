@@ -254,13 +254,15 @@ public static class NekoThemesPlusReleaseSmoke
             var export = themeType == null ? null : themeType.GetMethod("Export", BindingFlags.Static | BindingFlags.Public);
             var import = themeType == null ? null : themeType.GetMethod("Import", BindingFlags.Static | BindingFlags.Public);
             var backgroundType = Type.GetType("NekoThemesPlus.Background.BackgroundManager, NekoThemesPlus.Editor", false);
+            var updateType = Type.GetType("NekoThemesPlus.Updates.NekoThemesPlusUpdateService, NekoThemesPlus.Editor", false);
             var windowKindType = Type.GetType("NekoThemesPlus.Windows.WindowKind, NekoThemesPlus.Editor", false);
             var setWindow = backgroundType == null ? null : backgroundType.GetMethod("SetWindowBackground", BindingFlags.Static | BindingFlags.Public);
             var clearWindow = backgroundType == null ? null : backgroundType.GetMethod("ClearWindowBackground", BindingFlags.Static | BindingFlags.Public);
             var getWindowPath = backgroundType == null ? null : backgroundType.GetMethod("GetBackgroundPath", BindingFlags.Static | BindingFlags.Public);
             var getWindowTexture = backgroundType == null ? null : backgroundType.GetMethod("GetProcessedTexture", BindingFlags.Static | BindingFlags.Public);
             var releaseWindowCache = backgroundType == null ? null : backgroundType.GetMethod("ReleaseWindowCache", BindingFlags.Static | BindingFlags.Public);
-            if (export == null || import == null || windowKindType == null ||
+            var compareVersions = updateType == null ? null : updateType.GetMethod("IsNewerVersion", BindingFlags.Static | BindingFlags.NonPublic);
+            if (export == null || import == null || windowKindType == null || compareVersions == null ||
                 setWindow == null || clearWindow == null || getWindowPath == null ||
                 getWindowTexture == null || releaseWindowCache == null)
             {
@@ -268,6 +270,9 @@ public static class NekoThemesPlusReleaseSmoke
             }
             else
             {
+                if (!(bool)compareVersions.Invoke(null, new object[] { "0.5.0", "0.4.0" }) ||
+                    (bool)compareVersions.Invoke(null, new object[] { "0.5.0-beta.1", "0.4.0" }))
+                    failures.Add("stable update version comparison failed");
                 File.WriteAllBytes(imagePath, Convert.FromBase64String(
                     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="));
                 object hierarchy = Enum.Parse(windowKindType, "Hierarchy");

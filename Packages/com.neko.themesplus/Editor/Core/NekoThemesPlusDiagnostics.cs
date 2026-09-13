@@ -2,6 +2,7 @@ using System.Text;
 using NekoThemesPlus.Background;
 using NekoThemesPlus.Reflection;
 using NekoThemesPlus.Theme;
+using NekoThemesPlus.Updates;
 using NekoThemesPlus.Windows;
 using UnityEditor;
 using UnityEngine;
@@ -49,6 +50,8 @@ namespace NekoThemesPlus.Core
             report.AppendLine("文字主题：" + settings.enableTextColors);
             report.AppendLine("UI Toolkit 文字元素：" + WindowHookManager.ThemedTextElementCount);
             report.AppendLine("IMGUI 文字样式：" + EditorStyleController.ThemedStyleCount);
+            report.AppendLine("更新检查：" + settings.automaticallyCheckForUpdates + "，安装来源=" + NekoThemesPlusUpdateService.InstallationSource);
+            report.AppendLine("更新状态：" + NekoThemesPlusUpdateService.Status);
             foreach (string hook in HostViewHookManager.DescribeHooks())
             {
                 report.AppendLine("  - " + hook);

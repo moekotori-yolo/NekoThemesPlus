@@ -1,4 +1,5 @@
 using UnityEditor;
+using NekoThemesPlus.Updates;
 
 namespace NekoThemesPlus.Core
 {
@@ -18,6 +19,7 @@ namespace NekoThemesPlus.Core
             try
             {
                 NekoThemesPlusManager.InitializeFromSettings();
+                NekoThemesPlusUpdateService.Initialize();
                 NekoThemesPlusSafeMode.MarkInitializationSucceeded();
             }
             catch (System.Exception exception)
@@ -33,12 +35,14 @@ namespace NekoThemesPlus.Core
         private static void BeforeAssemblyReload()
         {
             NekoThemesPlusManager.ShutdownForReload();
+            NekoThemesPlusUpdateService.Shutdown();
             NekoThemesPlusSafeMode.MarkInitializationSucceeded();
         }
 
         private static void BeforeEditorQuit()
         {
             NekoThemesPlusManager.ShutdownForReload();
+            NekoThemesPlusUpdateService.Shutdown();
             NekoThemesPlusSafeMode.MarkInitializationSucceeded();
         }
     }

@@ -21,6 +21,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 - 可选的主文字色与次要 / 提示文字色，同时覆盖 UI Toolkit 和旧式 IMGUI，并可完整恢复。
 - 简体中文 / English 设置界面、9 个预设（含樱花磨砂）和诊断报告。
 - `.nekotheme` 单文件导入导出，可内嵌壁纸和视觉参数。
+- 每日自动检查 GitHub 稳定 Release；确认保存后由 Unity Package Manager 一键更新并安全重编译。
 - Safe Mode、完整恢复流程，以及默认关闭的 Windows Mica/Acrylic 实验功能。
 
 ## 兼容性
@@ -30,7 +31,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 | Unity | `2022.3.x` LTS；正式目标 `2022.3.42f1` |
 | 操作系统 | Windows 10 / Windows 11 |
 | Player 构建 | 不参与；插件程序集仅限 Editor |
-| 当前版本 | `0.4.0` |
+| 当前版本 | `0.5.0` |
 
 本项目也在 Unity `2022.3.22f1c1` 上完成过隔离安装与编译自检。其他 Unity 大版本默认不会启用内部窗口挂钩。
 
@@ -50,7 +51,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 在 Package Manager 中选择 **Add package from git URL...**，输入：
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.4.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.5.0
 ```
 
 ### 开发者安装
@@ -65,6 +66,10 @@ https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.the
 4. 在“颜色”页启用文字主题并设置主文字、提示文字颜色。
 5. 在“窗口”页决定需要处理的编辑器面板。
 6. 如遇问题，到“高级”页复制诊断报告或点击“恢复 Unity”。
+
+## 自动更新
+
+设置首页默认每 24 小时检查一次 GitHub 最新稳定 Release，也可点击“立即检查”。发现新版后选择“保存并更新”，Unity 会先提示保存未保存场景，再通过 Package Manager 切换到对应 Git 标签并重新编译。通过 Release TGZ 安装的版本和 Git 版本均可使用一键更新；源码嵌入或本地开发模式为保护修改只提供 Release 页面，不会覆盖本地文件。
 
 ## 构建与测试
 

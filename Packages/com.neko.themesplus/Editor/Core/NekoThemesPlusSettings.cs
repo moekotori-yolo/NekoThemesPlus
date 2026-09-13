@@ -59,6 +59,7 @@ namespace NekoThemesPlus.Core
         public bool experimentalInternalStyles;
         public bool forceUnsupportedVersion;
         public bool debugLogging;
+        public bool automaticallyCheckForUpdates = true;
         public int maxBackgroundResolution = 4096;
         public string currentPreset = "Neko Glass";
 
@@ -117,6 +118,7 @@ namespace NekoThemesPlus.Core
             experimentalInternalStyles = false;
             forceUnsupportedVersion = false;
             debugLogging = false;
+            automaticallyCheckForUpdates = true;
             maxBackgroundResolution = 4096;
             currentPreset = "Neko Glass";
             SaveSettings();

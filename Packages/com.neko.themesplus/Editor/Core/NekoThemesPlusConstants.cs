@@ -5,7 +5,7 @@ namespace NekoThemesPlus.Core
         public const string DisplayName = "Neko Themes Plus";
         public const string PackageId = "com.neko.themesplus";
         public const string PackageRoot = "Packages/com.neko.themesplus";
-        public const string FallbackVersion = "0.4.0";
+        public const string FallbackVersion = "0.5.0";
         public const string TargetUnityVersion = "2022.3.42f1";
         public const string SafeModeKey = "NekoThemesPlus.SafeMode";
         public const string LastSessionOkKey = "NekoThemesPlus.LastSessionOk";

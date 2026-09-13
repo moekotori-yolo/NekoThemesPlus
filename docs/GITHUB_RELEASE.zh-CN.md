@@ -34,7 +34,7 @@ git status
 
 ```powershell
 git add .
-git commit -m "feat: add colored frost and text themes for NekoThemesPlus 0.4.0"
+git commit -m "feat: add automatic updates for NekoThemesPlus 0.5.0"
 git branch -M main
 git remote add origin https://github.com/moekotori-yolo/NekoThemesPlus.git
 git push -u origin main
@@ -42,32 +42,32 @@ git push -u origin main
 
 如果已经存在 `origin`，用 `git remote set-url origin ...` 更新，不要再次 `remote add`。
 
-## 四、发布 V0.4.0
+## 四、发布 V0.5.0
 
 确认 `main` 的 Actions 通过后：
 
 ```powershell
-git tag -a v0.4.0 -m "NekoThemesPlus 0.4.0"
-git push origin v0.4.0
+git tag -a v0.5.0 -m "NekoThemesPlus 0.5.0"
+git push origin v0.5.0
 ```
 
 标签推送后，GitHub Actions 会自动创建 Release，并附带：
 
-- `com.neko.themesplus-0.4.0.tgz`
-- `NekoThemesPlus-0.4.0-Windows.zip`
+- `com.neko.themesplus-0.5.0.tgz`
+- `NekoThemesPlus-0.5.0-Windows.zip`
 - `SHA256SUMS.txt`
 
 不要把本地 `Dist` 提交进 Git；它已经写入 `.gitignore`，正式二进制产物由 Releases 和 Actions Artifacts 保存。
 
 ## 五、以后发布新版本
 
-以 `0.4.0` 为例：
+以 `0.5.0` 为例：
 
-1. 修改 package.json 版本号为 `0.4.0`。
+1. 修改 package.json 版本号为 `0.5.0`。
 2. 更新代码 fallback 版本和设置窗口显示；静态检查会指出未同步位置。
-3. 在 CHANGELOG 顶部增加 `## [0.4.0] - YYYY-MM-DD`。
+3. 在 CHANGELOG 顶部增加 `## [0.5.0] - YYYY-MM-DD`。
 4. 运行完整本地构建并提交。
-5. 创建和推送 `v0.4.0` 标签。
+5. 创建和推送 `v0.5.0` 标签。
 
 不要移动已经公开的版本标签。如果旧 Release 有问题，发布补丁版本，例如 `0.3.1`。
 
