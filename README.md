@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/moekotori-yolo/NekoThemesPlus/actions/workflows/ci.yml/badge.svg)](https://github.com/moekotori-yolo/NekoThemesPlus/actions/workflows/ci.yml)
 
-NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题扩展。它提供连续背景、独立窗口透明度、GPU 调色与模糊、Dock 栏染色、中文界面，以及可分享的 `.nekotheme` 主题文件。
+NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题扩展。它提供连续背景、彩色磨砂玻璃、全局文字配色、GPU 调色与模糊、Dock 栏染色、中文界面，以及可分享的 `.nekotheme` 主题文件。
 
 
 [English](README.en.md) · [中文手册](Packages/com.neko.themesplus/Documentation~/README.zh-CN.md) · [更新日志](Packages/com.neko.themesplus/CHANGELOG.md) · [参与贡献](CONTRIBUTING.md)
@@ -18,7 +18,8 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 - Hierarchy、Inspector、Project、Console 支持独立背景图片，留空时继承全局壁纸。
 - Scene View / Game View 安全模式，不修改相机渲染内容。
 - HostView 绘制桥、Dock 标签栏与边框染色。
-- 简体中文 / English 设置界面、8 个预设和诊断报告。
+- 可选的主文字色与次要 / 提示文字色，同时覆盖 UI Toolkit 和旧式 IMGUI，并可完整恢复。
+- 简体中文 / English 设置界面、9 个预设（含樱花磨砂）和诊断报告。
 - `.nekotheme` 单文件导入导出，可内嵌壁纸和视觉参数。
 - Safe Mode、完整恢复流程，以及默认关闭的 Windows Mica/Acrylic 实验功能。
 
@@ -29,7 +30,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 | Unity | `2022.3.x` LTS；正式目标 `2022.3.42f1` |
 | 操作系统 | Windows 10 / Windows 11 |
 | Player 构建 | 不参与；插件程序集仅限 Editor |
-| 当前版本 | `0.3.0` |
+| 当前版本 | `0.4.0` |
 
 本项目也在 Unity `2022.3.22f1c1` 上完成过隔离安装与编译自检。其他 Unity 大版本默认不会启用内部窗口挂钩。
 
@@ -49,7 +50,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 在 Package Manager 中选择 **Add package from git URL...**，输入：
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.3.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.4.0
 ```
 
 ### 开发者安装
@@ -60,9 +61,10 @@ https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.the
 
 1. 打开设置窗口并进入“背景”。
 2. 选择 PNG、JPG 或 JPEG 壁纸。
-3. 应用“Neko 玻璃”预设，再微调模糊、亮度和面板透明度。
-4. 在“窗口”页决定需要处理的编辑器面板。
-5. 如遇问题，到“高级”页复制诊断报告或点击“恢复 Unity”。
+3. 想接近粉色参考效果时应用“樱花磨砂”，或选择“Neko 玻璃”再微调磨砂颜色、Alpha 与强度。
+4. 在“颜色”页启用文字主题并设置主文字、提示文字颜色。
+5. 在“窗口”页决定需要处理的编辑器面板。
+6. 如遇问题，到“高级”页复制诊断报告或点击“恢复 Unity”。
 
 ## 构建与测试
 

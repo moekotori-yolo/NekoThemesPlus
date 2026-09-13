@@ -1,11 +1,11 @@
-# Neko Themes Plus 0.3.0 中文使用手册
+# Neko Themes Plus 0.4.0 中文使用手册
 
 ## 一、安装成品包
 
 1. 启动 Unity 2022.3 LTS 并打开目标项目。
 2. 打开 **Window > Package Manager**。
 3. 点击左上角 **+**，选择 **Add package from tarball...**。
-4. 选择 `com.neko.themesplus-0.3.0.tgz`。
+4. 选择 `com.neko.themesplus-0.4.0.tgz`。
 5. 等待 Unity 编译完成，Console 中不应出现 NekoThemesPlus 编译错误。
 
 如果使用源码，选择 **Add package from disk...**，然后打开 `Packages/com.neko.themesplus/package.json`。
@@ -18,10 +18,12 @@
 4. 推荐先应用“Neko 玻璃”预设，再按显示器和图片微调：
    - 模糊：`18–24`
    - 亮度：`0.65–0.8`
-   - 全局面板不透明度：`0.65–0.78`
+   - 磨砂颜色强度：`0.65–0.78`
 5. 进入“窗口”，确认层级、检视器、项目、控制台已启用。
 
-需要把当前外观分享给别人时，进入“预设 > 分享主题 > 导出主题”。生成的 `.nekotheme` 会内嵌全局壁纸、四张区域壁纸和视觉参数；单张图片上限 64 MB、全部图片合计上限 96 MB。对方安装 NekoThemesPlus 0.3.0 后，在同一页面点击“导入主题”即可。旧版 Schema 1 主题仍可导入。原生 Windows 实验设置、强制版本兼容和调试开关不会随主题导入。
+想得到淡粉参考效果，可直接应用“樱花磨砂”预设，再进入“玻璃”修改磨砂颜色、Alpha 和强度；进入“颜色”可启用自定义文字颜色，并分别调整主文字和次要 / 提示文字。
+
+需要把当前外观分享给别人时，进入“预设 > 分享主题 > 导出主题”。生成的 `.nekotheme` Schema 3 会内嵌全局壁纸、四张区域壁纸、磨砂颜色和文字主题参数；单张图片上限 64 MB、全部图片合计上限 96 MB。对方安装 NekoThemesPlus 0.4.0 后，在同一页面点击“导入主题”即可。旧版 Schema 1/2 主题仍可导入。原生 Windows 实验设置、强制版本兼容和调试开关不会随主题导入。
 
 修改会自动写入当前项目的 `ProjectSettings/NekoThemesPlusSettings.asset`。背景图片保存的是绝对路径；移动或删除图片后，需要重新选择。
 
@@ -48,6 +50,8 @@
 
 - Hierarchy、Inspector、Project、Console 的开关和透明度互相独立。
 - Unity 2022.3 的旧式窗口通过 HostView 绘制桥实现透底；Dock 标签栏和边框可在“颜色”页面单独控制。
+- 磨砂玻璃颜色的 Alpha、全局强度和窗口强度会相乘，可在不降低内容清晰度的情况下做淡色玻璃。
+- 文字主题覆盖常用窗口中的 UI Toolkit 标签和 Unity 内置 IMGUI 样式；关闭开关、停用插件或恢复 Unity 时会还原原始颜色。
 - 插件只改变背景层和玻璃着色层，不改变内容层 opacity。
 - Scene View 和 Game View 默认关闭。开启后只处理顶部约 24 px 的编辑器工具条；3D 场景与游戏相机画面保持原样。
 - Windows 原生效果全部是实验功能且默认关闭。建议一次只打开一个效果进行测试。

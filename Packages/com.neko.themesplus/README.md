@@ -1,19 +1,19 @@
 # Neko Themes Plus
 
-Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸与深色玻璃主题插件，不会进入 Player 构建，也不会修改 Scene/Game 相机输出。
+Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸、彩色磨砂玻璃与文字主题插件，不会进入 Player 构建，也不会修改 Scene/Game 相机输出。
 
 ## 环境
 
 - 正式目标：Unity `2022.3.42f1` LTS
 - 兼容范围：Unity `2022.3.x` LTS
 - 系统：Windows 10 / Windows 11
-- 当前版本：`0.3.0`
+- 当前版本：`0.4.0`
 
 ## 安装
 
 在 Unity 中打开 **Window > Package Manager**，点击左上角 **+**：
 
-1. 成品压缩包：选择 **Add package from tarball...**，打开 `com.neko.themesplus-0.3.0.tgz`。
+1. 成品压缩包：选择 **Add package from tarball...**，打开 `com.neko.themesplus-0.4.0.tgz`。
 2. 源码目录：选择 **Add package from disk...**，打开本包的 `package.json`。
 
 本开发项目已经以内嵌包方式安装，无需重复安装。编译完成后，通过 **Window > Neko Themes Plus > 设置** 打开设置中心。
@@ -23,8 +23,9 @@ Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸与深色玻璃主�
 1. 打开“背景”页面，点击“选择图片”，选择外部 PNG、JPG 或 JPEG。
 2. 调整亮度、饱和度、对比度、色调、不透明度和模糊；结果会实时保存和预览。
 3. 在“窗口”页面分别启用层级、检视器、项目和控制台，并调整面板不透明度。
-4. 2022.3 会自动应用保守的 IMGUI 背景兼容；如果仍有区域遮住壁纸，可在“高级”中启用“扩展内部样式（实验性）”并点击“刷新窗口”。
-5. 需要完全撤销效果时，点击“高级 > 恢复 Unity”，或使用 **Tools > Neko Themes Plus > 停用**。
+4. 在“玻璃”页选择磨砂玻璃颜色与 Alpha，在“颜色”页按需启用主文字色和次要文字色。
+5. 2022.3 会自动应用保守的 IMGUI 背景兼容；如果仍有区域遮住壁纸，可在“高级”中启用“扩展内部样式（实验性）”并点击“刷新窗口”。
+6. 需要完全撤销效果时，点击“高级 > 恢复 Unity”，或使用 **Tools > Neko Themes Plus > 停用**。
 
 ## 已包含功能
 
@@ -36,7 +37,8 @@ Neko Themes Plus 是仅作用于 Unity Editor 的全局壁纸与深色玻璃主�
 - Hierarchy、Inspector、Project、Console 独立开关与透明度。
 - Hierarchy、Inspector、Project、Console 可各自选择独立背景；留空时继承全局壁纸。
 - Scene View / Game View 可选安全模式，只处理 24 px 编辑器工具条，不触碰渲染区域。
-- 8 个内置预设、自定义选择强调条、简体中文/English 界面。
+- 可调颜色和 Alpha 的磨砂玻璃层，以及 UI Toolkit / IMGUI 双路径的可恢复文字主题。
+- 9 个内置预设（含“樱花磨砂”）、自定义选择强调条、简体中文/English 界面。
 - Dock 标签栏/边框染色，以及可复制到剪贴板的完整诊断报告。
 - `.nekotheme` 单文件主题导入/导出，可内嵌全局壁纸和四张区域壁纸；单张上限 64 MB、合计上限 96 MB。
 - 设置保存在 `ProjectSettings/NekoThemesPlusSettings.asset`，重启自动恢复。

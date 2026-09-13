@@ -11,6 +11,19 @@ namespace NekoThemesPlus.Windows
         private static bool initialized;
 
         public static int HookedCount { get { return Controllers.Count; } }
+        public static int ThemedTextElementCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (WindowThemeController controller in Controllers.Values)
+                {
+                    count += controller.ThemedTextCount;
+                }
+
+                return count;
+            }
+        }
 
         public static void Initialize()
         {
@@ -78,6 +91,15 @@ namespace NekoThemesPlus.Windows
             controller.Refresh();
             EditorWindowRegistry.MarkHooked(instanceId, true);
             return true;
+        }
+
+        internal static void RefreshDynamicStyles(int instanceId)
+        {
+            WindowThemeController controller;
+            if (Controllers.TryGetValue(instanceId, out controller))
+            {
+                controller.RefreshDynamicStyles();
+            }
         }
 
         public static void Detach(EditorWindow window)

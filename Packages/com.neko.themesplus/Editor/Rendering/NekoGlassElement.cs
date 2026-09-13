@@ -18,7 +18,7 @@ namespace NekoThemesPlus.Rendering
 
         public void SetTint(Color tint, float opacity)
         {
-            tint.a = Mathf.Clamp01(opacity);
+            tint.a = Mathf.Clamp01(tint.a * opacity);
             style.backgroundColor = tint;
         }
     }

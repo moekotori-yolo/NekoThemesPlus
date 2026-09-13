@@ -4,7 +4,7 @@
         <ui:VisualElement class="neko-header">
             <ui:VisualElement class="neko-brand-block">
                 <ui:Label text="Neko Themes Plus" class="neko-brand" />
-                <ui:Label name="version-label" text="v0.3.0" class="neko-version" />
+                <ui:Label name="version-label" text="v0.4.0" class="neko-version" />
             </ui:VisualElement>
             <ui:VisualElement class="neko-header-spacer" />
             <ui:Label name="preset-label" text="Neko Glass" class="neko-preset-label" />

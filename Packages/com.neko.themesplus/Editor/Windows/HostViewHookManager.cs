@@ -350,7 +350,7 @@ namespace NekoThemesPlus.Windows
                             Mathf.Clamp01(requested.g * 2f),
                             Mathf.Clamp01(requested.b * 2f),
                             1f), 0.35f);
-                        tint.a = Mathf.Clamp01(settings.globalPanelOpacity * GetOpacity(settings, kind));
+                        tint.a = Mathf.Clamp01(requested.a * settings.globalPanelOpacity * GetOpacity(settings, kind));
                         GUI.backgroundColor = previousBackground * tint;
                         changedGuiColor = true;
                     }

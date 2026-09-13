@@ -146,7 +146,7 @@ namespace NekoThemesPlus.Native
         private static void ApplyAccent(IntPtr window, bool enabled, Color tint, float opacity)
         {
             Color32 color = tint;
-            int alpha = Mathf.RoundToInt(Mathf.Clamp01(opacity) * 180f);
+            int alpha = Mathf.RoundToInt(Mathf.Clamp01(opacity * tint.a) * 180f);
             int gradient = (alpha << 24) | (color.b << 16) | (color.g << 8) | color.r;
             WindowsNative.AccentPolicy policy = new WindowsNative.AccentPolicy
             {

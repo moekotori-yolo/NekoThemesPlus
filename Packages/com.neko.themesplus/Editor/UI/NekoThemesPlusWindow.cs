@@ -333,10 +333,10 @@ namespace NekoThemesPlus.UI
         private void BuildGlassPage()
         {
             NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
-            VisualElement card = AddCard(T("玻璃表面", "Glass surface"), T("面板使用独立的背景和着色层。", "Panels use independent background and tint layers."));
-            AddColor(card, T("面板色调", "Panel tint"), settings.panelTint, value => settings.panelTint = value, false);
-            AddSlider(card, T("全局面板不透明度", "Global panel opacity"), settings.globalPanelOpacity, 0f, 1f, value => settings.globalPanelOpacity = value, false);
-            AddMessage(T("不会修改内容本身的透明度；文字、图标和控件始终保持完全清晰。", "Content opacity is never changed; text, icons, and controls remain fully opaque."), "neko-warning", card);
+            VisualElement card = AddCard(T("彩色磨砂玻璃", "Colored frosted glass"), T("为窗口内容下方的磨砂层选择任意颜色，并独立控制颜色强度。", "Choose any color for the frosted layer behind window content and control its strength independently."));
+            AddColor(card, T("磨砂玻璃颜色", "Frosted glass color"), settings.panelTint, value => settings.panelTint = value, false);
+            AddSlider(card, T("磨砂颜色强度", "Frost color strength"), settings.globalPanelOpacity, 0f, 1f, value => settings.globalPanelOpacity = value, false);
+            AddMessage(T("颜色选择器的 Alpha 会与强度和各区域不透明度相乘；降低 Alpha 可得到更轻柔的粉色玻璃。内容本身不会被透明化。", "The color alpha is multiplied by the global strength and each window opacity. Lower alpha produces a softer tint without fading the content itself."), "neko-warning", card);
         }
 
         private void BuildWindowsPage()
@@ -354,7 +354,13 @@ namespace NekoThemesPlus.UI
         private void BuildColorsPage()
         {
             NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
-            VisualElement card = AddCard(T("编辑器颜色", "Editor colors"), T("可调整强调色和选择色；为了可读性，不修改文字颜色。", "Tune accent and selection colors while leaving editor text untouched."));
+            VisualElement textCard = AddCard(T("全局文字主题", "Global text theme"), T("覆盖常用窗口中的 UI Toolkit 与旧式 IMGUI 文字；关闭后恢复 Unity 原始颜色。", "Colors UI Toolkit and legacy IMGUI text in common windows; disabling it restores Unity's original colors."));
+            AddToggle(textCard, T("启用自定义文字颜色", "Enable custom text colors"), settings.enableTextColors, value => settings.enableTextColors = value, false);
+            AddColor(textCard, T("主文字颜色", "Primary text color"), settings.primaryTextColor, value => settings.primaryTextColor = value, false);
+            AddColor(textCard, T("次要 / 提示文字颜色", "Secondary / hint text color"), settings.secondaryTextColor, value => settings.secondaryTextColor = value, false);
+            AddMessage(T("主颜色用于标签、按钮、输入框和列表；次要颜色用于小字号、禁用项及提示文字。极少数自定义插件若自行绘制文字，可能不接受全局颜色。", "Primary color covers labels, buttons, fields, and lists. Secondary color covers small, disabled, and hint text. A third-party window that draws text with private styles may ignore global colors."), "neko-warning", textCard);
+
+            VisualElement card = AddCard(T("编辑器颜色", "Editor colors"), T("调整强调色、选择色与 Dock 边框颜色。", "Tune accent, selection, and Dock chrome colors."));
             AddColor(card, T("强调色", "Accent color"), settings.accentColor, value => settings.accentColor = value, false);
             AddColor(card, T("选择色", "Selection color"), settings.selectionColor, value => settings.selectionColor = value, false);
             AddSlider(card, T("选择色不透明度", "Selection opacity"), settings.selectionOpacity, 0f, 1f, value => settings.selectionOpacity = value, false);
@@ -407,6 +413,8 @@ namespace NekoThemesPlus.UI
             diagnostics.Add(new Label("HostView：" + (HostViewHookManager.IsAvailable ? T("可用", "Available") : T("不可用", "Unavailable"))));
             diagnostics.Add(new Label(T("HostView 内容挂钩：", "HostView content hooks: ") + HostViewHookManager.HookedCount));
             diagnostics.Add(new Label(T("Dock 边框挂钩：", "Dock chrome hooks: ") + HostViewHookManager.ChromeHookedCount));
+            diagnostics.Add(new Label(T("UI Toolkit 文字元素：", "UI Toolkit text elements: ") + WindowHookManager.ThemedTextElementCount));
+            diagnostics.Add(new Label(T("IMGUI 文字样式：", "IMGUI text styles: ") + EditorStyleController.ThemedStyleCount));
             diagnostics.Add(new Label(T("背景状态：", "Background status: ") + (string.IsNullOrEmpty(BackgroundManager.LastError) ? T("就绪", "Ready") : BackgroundManager.LastError)));
             Button reportButton = new Button(delegate
             {
@@ -465,6 +473,8 @@ namespace NekoThemesPlus.UI
             secondRow.Add(new Button(delegate { ApplyPreset("VS Code Glass"); }) { text = PresetDisplayName("VS Code Glass") });
             secondRow.Add(new Button(delegate { ApplyPreset("Deep Black"); }) { text = PresetDisplayName("Deep Black") });
             secondRow.Add(new Button(delegate { ApplyPreset("Soft Frost"); }) { text = PresetDisplayName("Soft Frost") });
+            VisualElement thirdRow = AddRow(parent);
+            thirdRow.Add(new Button(delegate { ApplyPreset("Sakura Frost"); }) { text = PresetDisplayName("Sakura Frost") });
         }
 
         private void ApplyPreset(string preset)
@@ -473,6 +483,15 @@ namespace NekoThemesPlus.UI
             settings.currentPreset = preset;
             settings.backgroundZoom = 1f;
             settings.backgroundAlignment = new Vector2(0.5f, 0.5f);
+            settings.backgroundTint = new Color32(21, 26, 32, 90);
+            settings.accentColor = new Color32(105, 168, 255, 255);
+            settings.selectionColor = new Color32(65, 106, 155, 255);
+            settings.selectionOpacity = 0.85f;
+            settings.borderColor = new Color32(72, 126, 193, 255);
+            settings.borderOpacity = 0.22f;
+            settings.enableTextColors = false;
+            settings.primaryTextColor = new Color32(226, 232, 240, 255);
+            settings.secondaryTextColor = new Color32(159, 171, 187, 255);
 
             switch (preset)
             {
@@ -533,16 +552,28 @@ namespace NekoThemesPlus.UI
                     settings.panelTint = new Color32(77, 88, 103, 255);
                     settings.globalPanelOpacity = 0.58f;
                     break;
+                case "Sakura Frost":
+                    settings.blurAmount = 32f;
+                    settings.brightness = 1.02f;
+                    settings.saturation = 0.72f;
+                    settings.contrast = 0.92f;
+                    settings.backgroundTint = new Color32(255, 226, 235, 72);
+                    settings.panelTint = new Color32(255, 190, 211, 210);
+                    settings.globalPanelOpacity = 0.56f;
+                    settings.accentColor = new Color32(224, 105, 150, 255);
+                    settings.selectionColor = new Color32(245, 151, 185, 255);
+                    settings.borderColor = new Color32(229, 130, 169, 255);
+                    settings.enableTextColors = true;
+                    settings.primaryTextColor = new Color32(70, 47, 61, 255);
+                    settings.secondaryTextColor = new Color32(122, 86, 105, 255);
+                    break;
                 default:
                     settings.blurAmount = 20f;
                     settings.brightness = 0.70f;
                     settings.saturation = 0.82f;
                     settings.contrast = 1.06f;
-                    settings.backgroundTint = new Color32(21, 26, 32, 90);
                     settings.panelTint = new Color32(21, 29, 38, 255);
                     settings.globalPanelOpacity = 0.70f;
-                    settings.accentColor = new Color32(105, 168, 255, 255);
-                    settings.selectionColor = new Color32(65, 106, 155, 255);
                     break;
             }
 
@@ -884,9 +915,9 @@ namespace NekoThemesPlus.UI
             {
                 case "Global": return T("主题概览、快速预设和实时 GPU 背景预览。", "Theme overview, quick presets, and the live processed-background preview.");
                 case "Background": return T("选择并调整全局背景模拟所使用的图片。", "Choose and tune the image used by the global background simulation.");
-                case "Glass": return T("配置位于编辑器内容下方的独立着色层。", "Configure the independent tint layers behind editor content.");
+                case "Glass": return T("选择磨砂玻璃颜色、Alpha 与整体强度。", "Choose the frosted-glass color, alpha, and global strength.");
                 case "Windows": return T("控制各编辑器窗口及其玻璃不透明度。", "Control each editor window and its glass opacity.");
-                case "Colors": return T("调整强调色和选择色，同时保持文字原样。", "Tune accent and selection colors without changing editor text.");
+                case "Colors": return T("调整主文字、提示文字、强调色、选择色与 Dock 颜色。", "Tune primary text, hint text, accent, selection, and Dock colors.");
                 case "Windows Effects": return T("可选的 Windows 10/11 原生效果（实验性）。", "Optional native Windows 10/11 effects (experimental).");
                 case "Presets": return T("经过调校的视觉起点。", "Curated visual starting points.");
                 case "Advanced": return T("兼容性、诊断、资源限制和维护。", "Compatibility, diagnostics, resource limits, and maintenance.");
@@ -913,6 +944,7 @@ namespace NekoThemesPlus.UI
                 case "VS Code Glass": return T("VS Code 玻璃", "VS Code Glass");
                 case "Deep Black": return T("深邃黑", "Deep Black");
                 case "Soft Frost": return T("柔和磨砂", "Soft Frost");
+                case "Sakura Frost": return T("樱花磨砂", "Sakura Frost");
                 case "Custom": return T("自定义", "Custom");
                 default: return preset;
             }

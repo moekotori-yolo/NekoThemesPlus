@@ -17,7 +17,17 @@ namespace NekoThemesPlus.Theme
             public Texture2D onHover;
             public Texture2D onActive;
             public Texture2D onFocused;
+            public Color normalText;
+            public Color hoverText;
+            public Color activeText;
+            public Color focusedText;
+            public Color onNormalText;
+            public Color onHoverText;
+            public Color onActiveText;
+            public Color onFocusedText;
         }
+
+        public int Count { get { return backups.Count; } }
 
         public void Capture(GUIStyle style)
         {
@@ -35,7 +45,15 @@ namespace NekoThemesPlus.Theme
                 onNormal = style.onNormal.background,
                 onHover = style.onHover.background,
                 onActive = style.onActive.background,
-                onFocused = style.onFocused.background
+                onFocused = style.onFocused.background,
+                normalText = style.normal.textColor,
+                hoverText = style.hover.textColor,
+                activeText = style.active.textColor,
+                focusedText = style.focused.textColor,
+                onNormalText = style.onNormal.textColor,
+                onHoverText = style.onHover.textColor,
+                onActiveText = style.onActive.textColor,
+                onFocusedText = style.onFocused.textColor
             });
         }
 
@@ -54,6 +72,14 @@ namespace NekoThemesPlus.Theme
                 style.onHover.background = backup.onHover;
                 style.onActive.background = backup.onActive;
                 style.onFocused.background = backup.onFocused;
+                style.normal.textColor = backup.normalText;
+                style.hover.textColor = backup.hoverText;
+                style.active.textColor = backup.activeText;
+                style.focused.textColor = backup.focusedText;
+                style.onNormal.textColor = backup.onNormalText;
+                style.onHover.textColor = backup.onHoverText;
+                style.onActive.textColor = backup.onActiveText;
+                style.onFocused.textColor = backup.onFocusedText;
             }
 
             backups.Clear();

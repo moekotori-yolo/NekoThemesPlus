@@ -105,6 +105,8 @@ namespace NekoThemesPlus.Windows
                         tracked.lastRect = current;
                         tracked.hooked = WindowHookManager.Refresh(window, tracked.kind);
                     }
+
+                    WindowHookManager.RefreshDynamicStyles(instanceId);
                 }
             }
 

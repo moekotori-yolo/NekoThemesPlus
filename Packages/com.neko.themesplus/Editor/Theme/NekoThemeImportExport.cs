@@ -11,7 +11,7 @@ namespace NekoThemesPlus.Theme
     internal static class NekoThemeImportExport
     {
         private const string Format = "NekoThemesPlus.Theme";
-        private const int SchemaVersion = 2;
+        private const int SchemaVersion = 3;
         private const int MinimumSchemaVersion = 1;
         private const long MaximumEmbeddedImageBytes = 64L * 1024L * 1024L;
         private const long MaximumTotalEmbeddedImageBytes = 96L * 1024L * 1024L;
@@ -56,6 +56,9 @@ namespace NekoThemesPlus.Theme
             public Color accentColor;
             public Color selectionColor;
             public float selectionOpacity;
+            public bool enableTextColors;
+            public Color primaryTextColor;
+            public Color secondaryTextColor;
             public bool enableHierarchy;
             public bool enableInspector;
             public bool enableProject;
@@ -237,6 +240,9 @@ namespace NekoThemesPlus.Theme
                 accentColor = settings.accentColor,
                 selectionColor = settings.selectionColor,
                 selectionOpacity = settings.selectionOpacity,
+                enableTextColors = settings.enableTextColors,
+                primaryTextColor = settings.primaryTextColor,
+                secondaryTextColor = settings.secondaryTextColor,
                 enableHierarchy = settings.enableHierarchy,
                 enableInspector = settings.enableInspector,
                 enableProject = settings.enableProject,
@@ -275,6 +281,18 @@ namespace NekoThemesPlus.Theme
             settings.accentColor = data.accentColor;
             settings.selectionColor = data.selectionColor;
             settings.selectionOpacity = Mathf.Clamp01(data.selectionOpacity);
+            if (data.schemaVersion >= 3)
+            {
+                settings.enableTextColors = data.enableTextColors;
+                settings.primaryTextColor = data.primaryTextColor;
+                settings.secondaryTextColor = data.secondaryTextColor;
+            }
+            else
+            {
+                settings.enableTextColors = false;
+                settings.primaryTextColor = new Color32(226, 232, 240, 255);
+                settings.secondaryTextColor = new Color32(159, 171, 187, 255);
+            }
             settings.enableHierarchy = data.enableHierarchy;
             settings.enableInspector = data.enableInspector;
             settings.enableProject = data.enableProject;

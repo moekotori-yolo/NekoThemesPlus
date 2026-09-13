@@ -36,6 +36,9 @@ namespace NekoThemesPlus.Core
         public Color accentColor = new Color32(105, 168, 255, 255);
         public Color selectionColor = new Color32(65, 106, 155, 255);
         [Range(0f, 1f)] public float selectionOpacity = 0.85f;
+        public bool enableTextColors;
+        public Color primaryTextColor = new Color32(226, 232, 240, 255);
+        public Color secondaryTextColor = new Color32(159, 171, 187, 255);
         public bool enableDockChrome = true;
         public Color borderColor = new Color32(72, 126, 193, 255);
         [Range(0f, 1f)] public float borderOpacity = 0.22f;
@@ -93,6 +96,9 @@ namespace NekoThemesPlus.Core
             accentColor = new Color32(105, 168, 255, 255);
             selectionColor = new Color32(65, 106, 155, 255);
             selectionOpacity = 0.85f;
+            enableTextColors = false;
+            primaryTextColor = new Color32(226, 232, 240, 255);
+            secondaryTextColor = new Color32(159, 171, 187, 255);
             enableDockChrome = true;
             borderColor = new Color32(72, 126, 193, 255);
             borderOpacity = 0.22f;

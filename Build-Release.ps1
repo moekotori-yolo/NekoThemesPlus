@@ -290,9 +290,10 @@ public static class NekoThemesPlusReleaseSmoke
                 else
                 {
                     string json = File.ReadAllText(themePath);
-                    if (!json.Contains("\"schemaVersion\": 2") ||
-                        !json.Contains("\"hierarchyBackgroundBase64\""))
-                        failures.Add("theme did not contain schema 2 per-window image data");
+                    if (!json.Contains("\"schemaVersion\": 3") ||
+                        !json.Contains("\"hierarchyBackgroundBase64\"") ||
+                        !json.Contains("\"enableTextColors\""))
+                        failures.Add("theme did not contain schema 3 window and text-theme data");
 
                     clearWindow.Invoke(null, new[] { hierarchy });
                     var importArgs = new object[] { themePath, null };

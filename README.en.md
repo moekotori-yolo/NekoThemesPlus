@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/moekotori-yolo/NekoThemesPlus/actions/workflows/ci.yml/badge.svg)](https://github.com/moekotori-yolo/NekoThemesPlus/actions/workflows/ci.yml)
 
-NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. It provides a continuous background across docked windows, per-window opacity, GPU color processing and blur, dock chrome tinting, bilingual UI, diagnostics, and portable `.nekotheme` files.
+NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. It provides a continuous background across docked windows, colored frosted glass, global text colors, GPU color processing and blur, dock chrome tinting, bilingual UI, diagnostics, and portable `.nekotheme` files.
 
 > Before publishing, run `./Scripts/Set-GitHubOwner.ps1 -Owner YOUR_NAME` to replace the `OWNER` placeholder in repository links.
 
@@ -19,7 +19,8 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Independent Hierarchy, Inspector, Project, and Console images with automatic global-background inheritance.
 - Safe Scene/Game View handling that leaves camera output untouched.
 - HostView paint bridge and configurable dock/tab chrome tint.
-- Simplified Chinese and English UI, eight presets, safe mode, and a copyable diagnostic report.
+- Reversible primary and secondary text colors for both UI Toolkit and legacy IMGUI.
+- Simplified Chinese and English UI, nine presets including Sakura Frost, safe mode, and a copyable diagnostic report.
 - Portable `.nekotheme` import/export with an optional embedded wallpaper.
 - Experimental Windows Mica/Acrylic integration, disabled by default.
 
@@ -28,7 +29,7 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Unity `2022.3.x` LTS; primary target: `2022.3.42f1`
 - Windows 10 and Windows 11
 - Editor only; no runtime/player assembly is included
-- Current version: `0.3.0`
+- Current version: `0.4.0`
 
 The release pipeline has also been smoke-tested with Unity `2022.3.22f1c1`. Internal hooks are disabled by default outside Unity 2022.3.
 
@@ -43,7 +44,7 @@ Download `NekoThemesPlus-<version>-Windows.zip` from Releases, extract it, then 
 Replace `OWNER` with the repository owner:
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.3.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.4.0
 ```
 
 After compilation, open **Window > Neko Themes Plus > Settings**.

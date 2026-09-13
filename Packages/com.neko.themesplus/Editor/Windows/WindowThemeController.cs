@@ -15,6 +15,7 @@ namespace NekoThemesPlus.Windows
         private NekoBackgroundElement backgroundElement;
         private NekoGlassElement glassElement;
         private readonly List<InlineBackgroundBackup> inlineBackgrounds = new List<InlineBackgroundBackup>();
+        private readonly Dictionary<VisualElement, StyleColor> inlineTextColors = new Dictionary<VisualElement, StyleColor>();
 
         private struct InlineBackgroundBackup
         {
@@ -36,6 +37,7 @@ namespace NekoThemesPlus.Windows
 
         public EditorWindow Window { get { return window; } }
         public WindowKind Kind { get { return kind; } }
+        public int ThemedTextCount { get { return inlineTextColors.Count; } }
 
         public bool Attach()
         {
@@ -91,7 +93,18 @@ namespace NekoThemesPlus.Windows
             NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
             float opacity = Mathf.Clamp01(settings.globalPanelOpacity * GetWindowOpacity(settings));
             glassElement.SetTint(settings.panelTint, opacity);
+            RefreshTextColors();
             window.Repaint();
+        }
+
+        public void RefreshDynamicStyles()
+        {
+            if (window == null || !IsAttached)
+            {
+                return;
+            }
+
+            RefreshTextColors();
         }
 
         public void Detach()
@@ -109,6 +122,7 @@ namespace NekoThemesPlus.Windows
             }
 
             RestoreLegacyContainers();
+            RestoreTextColors();
 
             if (window != null)
             {
@@ -190,6 +204,101 @@ namespace NekoThemesPlus.Windows
             }
 
             inlineBackgrounds.Clear();
+        }
+
+        private void RefreshTextColors()
+        {
+            NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
+            if (!settings.enableTextColors || NekoThemesPlusSafeMode.IsActive)
+            {
+                RestoreTextColors();
+                return;
+            }
+
+            VisualElement root = window.rootVisualElement;
+            if (root == null)
+            {
+                RestoreTextColors();
+                return;
+            }
+
+            RestoreDetachedTextElements();
+            ApplyTextColors(root, settings.primaryTextColor, settings.secondaryTextColor);
+        }
+
+        private void ApplyTextColors(VisualElement element, Color primary, Color secondary)
+        {
+            if (element is TextElement)
+            {
+                if (!inlineTextColors.ContainsKey(element))
+                {
+                    inlineTextColors.Add(element, element.style.color);
+                }
+
+                element.style.color = IsSecondaryText(element) ? secondary : primary;
+            }
+
+            for (int index = 0; index < element.childCount; index++)
+            {
+                ApplyTextColors(element[index], primary, secondary);
+            }
+        }
+
+        private static bool IsSecondaryText(VisualElement element)
+        {
+            if (!element.enabledInHierarchy)
+            {
+                return true;
+            }
+
+            string name = (element.name ?? string.Empty).ToLowerInvariant();
+            if (name.Contains("secondary") || name.Contains("description") ||
+                name.Contains("placeholder") || name.Contains("help") || name.Contains("hint"))
+            {
+                return true;
+            }
+
+            float fontSize = element.resolvedStyle.fontSize;
+            return fontSize > 0f && fontSize <= 10f;
+        }
+
+        private void RestoreDetachedTextElements()
+        {
+            List<VisualElement> detached = null;
+            foreach (KeyValuePair<VisualElement, StyleColor> pair in inlineTextColors)
+            {
+                if (pair.Key == null || pair.Key.panel != null)
+                {
+                    continue;
+                }
+
+                if (pair.Key != null)
+                {
+                    pair.Key.style.color = pair.Value;
+                }
+
+                if (detached == null) detached = new List<VisualElement>();
+                detached.Add(pair.Key);
+            }
+
+            if (detached == null) return;
+            foreach (VisualElement element in detached)
+            {
+                inlineTextColors.Remove(element);
+            }
+        }
+
+        private void RestoreTextColors()
+        {
+            foreach (KeyValuePair<VisualElement, StyleColor> pair in inlineTextColors)
+            {
+                if (pair.Key != null)
+                {
+                    pair.Key.style.color = pair.Value;
+                }
+            }
+
+            inlineTextColors.Clear();
         }
     }
 }

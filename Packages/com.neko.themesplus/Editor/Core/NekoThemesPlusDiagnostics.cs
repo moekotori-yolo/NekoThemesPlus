@@ -1,6 +1,7 @@
 using System.Text;
 using NekoThemesPlus.Background;
 using NekoThemesPlus.Reflection;
+using NekoThemesPlus.Theme;
 using NekoThemesPlus.Windows;
 using UnityEditor;
 using UnityEngine;
@@ -45,6 +46,9 @@ namespace NekoThemesPlus.Core
                 : "不可用 - " + HostViewHookManager.UnavailableReason));
             report.AppendLine("HostView 内容挂钩数：" + HostViewHookManager.HookedCount);
             report.AppendLine("Dock 边框挂钩数：" + HostViewHookManager.ChromeHookedCount);
+            report.AppendLine("文字主题：" + settings.enableTextColors);
+            report.AppendLine("UI Toolkit 文字元素：" + WindowHookManager.ThemedTextElementCount);
+            report.AppendLine("IMGUI 文字样式：" + EditorStyleController.ThemedStyleCount);
             foreach (string hook in HostViewHookManager.DescribeHooks())
             {
                 report.AppendLine("  - " + hook);
