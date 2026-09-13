@@ -1,0 +1,43 @@
+# Unity generated content
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+[Dd]ist/
+
+# Per-project NekoThemesPlus preferences can contain a private wallpaper path
+ProjectSettings/NekoThemesPlusSettings.asset
+
+# IDE generated content
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local release/authentication files
+*.ulf
+*.alf
+.env
+.env.*
+!.env.example

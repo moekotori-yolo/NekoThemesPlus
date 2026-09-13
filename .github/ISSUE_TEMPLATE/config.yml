@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全漏洞私密报告
+    url: https://github.com/moekotori-yolo/NekoThemesPlus/security/advisories/new
+    about: 请勿把安全漏洞作为公开 Issue 提交
+  - name: 使用帮助
+    url: https://github.com/moekotori-yolo/NekoThemesPlus/discussions
+    about: 一般使用问题和主题分享请前往 Discussions

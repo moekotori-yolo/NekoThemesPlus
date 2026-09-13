@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="neko-root">
+        <ui:VisualElement class="neko-header">
+            <ui:VisualElement class="neko-brand-block">
+                <ui:Label text="Neko Themes Plus" class="neko-brand" />
+                <ui:Label name="version-label" text="v0.2.0" class="neko-version" />
+            </ui:VisualElement>
+            <ui:VisualElement class="neko-header-spacer" />
+            <ui:Label name="preset-label" text="Neko Glass" class="neko-preset-label" />
+            <ui:Toggle name="enabled-toggle" label="启用" class="neko-enabled-toggle" />
+            <ui:Button name="reset-button" text="重置" class="neko-quiet-button" />
+            <ui:Button name="save-button" text="保存" class="neko-primary-button" />
+        </ui:VisualElement>
+        <ui:VisualElement class="neko-body">
+            <ui:VisualElement name="navigation" class="neko-navigation" />
+            <ui:ScrollView name="page-content" class="neko-page-content" />
+        </ui:VisualElement>
+        <ui:VisualElement class="neko-footer">
+            <ui:Label name="status-label" text="就绪" class="neko-status" />
+            <ui:Label name="support-label" class="neko-support" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

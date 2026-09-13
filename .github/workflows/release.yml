@@ -1,0 +1,137 @@
+name: Publish GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing v-prefixed tag to publish, for example v0.2.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate release version
+    runs-on: windows-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve and validate version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = if ('${{ github.event_name }}' -eq 'workflow_dispatch') { '${{ inputs.tag }}' } else { '${{ github.ref_name }}' }
+          if ($tag -notmatch '^v(?<version>\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$') {
+            throw "Tag must look like v0.2.0: $tag"
+          }
+          $version = $Matches.version
+          ./Scripts/Validate-Repository.ps1 -ExpectedVersion $version
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+  unity-tests:
+    name: Unity release smoke tests
+    needs: validate
+    if: ${{ vars.UNITY_CI_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Unity EditMode tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: .
+          unityVersion: 2022.3.42f1
+          testMode: EditMode
+          artifactsPath: artifacts
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          customParameters: -accept-apiupdate
+
+      - name: Upload Unity test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-release-tests-${{ needs.validate.outputs.version }}
+          path: artifacts
+          if-no-files-found: warn
+
+  release:
+    name: Build and publish release
+    needs:
+      - validate
+      - unity-tests
+    if: >-
+      ${{ always() && needs.validate.result == 'success' &&
+          (needs.unity-tests.result == 'success' || needs.unity-tests.result == 'skipped') }}
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build release files
+        shell: pwsh
+        run: |
+          ./Scripts/Validate-Repository.ps1 -ExpectedVersion '${{ needs.validate.outputs.version }}'
+          ./Build-Release.ps1 -SkipUnityTest
+          ./Scripts/Get-ReleaseNotes.ps1 -Version '${{ needs.validate.outputs.version }}'
+
+      - name: Create or update GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = '${{ needs.validate.outputs.tag }}'
+          $version = '${{ needs.validate.outputs.version }}'
+          $assets = @(
+            "Dist/com.neko.themesplus-$version.tgz",
+            "Dist/NekoThemesPlus-$version-Windows.zip",
+            "Dist/SHA256SUMS.txt"
+          )
+          if (gh release view $tag --repo '${{ github.repository }}' 2>$null) {
+            gh release edit $tag --repo '${{ github.repository }}' --title "NekoThemesPlus $version" --notes-file Dist/RELEASE_NOTES.md
+            gh release upload $tag @assets --repo '${{ github.repository }}' --clobber
+          }
+          else {
+            gh release create $tag @assets --repo '${{ github.repository }}' --verify-tag --title "NekoThemesPlus $version" --notes-file Dist/RELEASE_NOTES.md
+          }
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NekoThemesPlus-${{ needs.validate.outputs.version }}
+          path: |
+            Dist/*.tgz
+            Dist/*.zip
+            Dist/SHA256SUMS.txt
+            Dist/RELEASE_NOTES.md
+          if-no-files-found: error
+          retention-days: 30

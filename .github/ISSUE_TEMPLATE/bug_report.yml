@@ -1,0 +1,72 @@
+name: Bug 报告
+description: 报告可复现的错误、显示异常或兼容性问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢报告问题。请先使用最新版，并在“高级”页面复制诊断报告。请移除用户名、私人路径和壁纸信息。
+  - type: input
+    id: plugin-version
+    attributes:
+      label: NekoThemesPlus 版本
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: unity-version
+    attributes:
+      label: Unity 完整版本
+      placeholder: 2022.3.42f1
+    validations:
+      required: true
+  - type: dropdown
+    id: windows-version
+    attributes:
+      label: Windows 版本
+      options:
+        - Windows 11
+        - Windows 10
+        - 其他或未知
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题说明
+      description: 预期发生什么，实际发生了什么？
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开……
+        2. 启用……
+        3. 看到……
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: 诊断报告和 Console 日志
+      render: text
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或录屏
+      description: 可直接拖入文件。请确保画面中没有私人信息。
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已经搜索过现有 Issue，没有发现相同报告。
+          required: true
+        - label: 我已经在“恢复 Unity”后重新测试。
+          required: true
+        - label: 这不是需要私密报告的安全漏洞。
+          required: true

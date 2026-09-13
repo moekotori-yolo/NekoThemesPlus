@@ -1,0 +1,36 @@
+name: 功能建议
+description: 建议新的主题能力、工作流或兼容性改进
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解决的问题
+      description: 请先描述使用场景和当前限制。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+      description: 描述你希望如何操作以及最终效果。
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的替代方案
+  - type: input
+    id: environment
+    attributes:
+      label: Unity / Windows 版本
+      placeholder: Unity 2022.3.42f1 / Windows 11
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 范围确认
+      options:
+        - label: 此建议只影响 Unity Editor，不要求修改游戏运行时画面。
+          required: true

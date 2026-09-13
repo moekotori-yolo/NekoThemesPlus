@@ -1,0 +1,220 @@
+.neko-root {
+    flex-grow: 1;
+    background-color: rgb(18, 22, 28);
+    color: rgb(224, 230, 239);
+}
+
+.neko-header {
+    height: 68px;
+    min-height: 68px;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 22px;
+    padding-right: 18px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(116, 151, 190, 0.20);
+    background-color: rgb(24, 30, 38);
+}
+
+.neko-brand-block {
+    flex-direction: row;
+    align-items: center;
+}
+
+.neko-brand {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(238, 243, 250);
+}
+
+.neko-version {
+    margin-left: 9px;
+    font-size: 10px;
+    color: rgb(112, 166, 235);
+}
+
+.neko-header-spacer {
+    flex-grow: 1;
+}
+
+.neko-preset-label {
+    color: rgb(154, 167, 184);
+    margin-right: 12px;
+}
+
+.neko-enabled-toggle {
+    margin-right: 12px;
+}
+
+.neko-body {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.neko-navigation {
+    width: 190px;
+    min-width: 190px;
+    padding-top: 18px;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: rgb(21, 26, 33);
+    border-right-width: 1px;
+    border-right-color: rgba(116, 151, 190, 0.16);
+}
+
+.neko-nav-button {
+    height: 36px;
+    margin-bottom: 5px;
+    padding-left: 13px;
+    -unity-text-align: middle-left;
+    background-color: rgba(255, 255, 255, 0.00);
+    border-width: 0;
+    border-radius: 6px;
+    color: rgb(166, 177, 191);
+}
+
+.neko-nav-button:hover {
+    background-color: rgba(105, 168, 255, 0.10);
+    color: rgb(226, 235, 246);
+}
+
+.neko-nav-button--active {
+    background-color: rgba(105, 168, 255, 0.20);
+    color: rgb(134, 188, 255);
+    border-left-width: 2px;
+    border-left-color: rgb(105, 168, 255);
+}
+
+.neko-page-content {
+    flex-grow: 1;
+    padding: 24px 30px 30px 30px;
+}
+
+.neko-page-title {
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(239, 244, 250);
+    margin-bottom: 5px;
+}
+
+.neko-page-subtitle {
+    font-size: 12px;
+    color: rgb(139, 153, 170);
+    margin-bottom: 18px;
+}
+
+.neko-card {
+    margin-bottom: 14px;
+    padding: 16px;
+    border-width: 1px;
+    border-color: rgba(123, 157, 196, 0.18);
+    border-radius: 8px;
+    background-color: rgba(37, 45, 56, 0.72);
+}
+
+.neko-card-title {
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: rgb(224, 232, 242);
+    margin-bottom: 4px;
+}
+
+.neko-card-description {
+    font-size: 11px;
+    color: rgb(135, 149, 166);
+    margin-bottom: 12px;
+    white-space: normal;
+}
+
+.neko-row {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+}
+
+.neko-row > * {
+    margin-right: 8px;
+}
+
+.neko-preview {
+    height: 270px;
+    min-height: 180px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background-color: rgb(11, 14, 18);
+    border-width: 1px;
+    border-color: rgba(130, 168, 212, 0.30);
+    border-radius: 7px;
+}
+
+.neko-empty-preview {
+    height: 180px;
+    -unity-text-align: middle-center;
+    color: rgb(104, 116, 131);
+    background-color: rgb(12, 15, 20);
+    border-width: 1px;
+    border-color: rgba(130, 168, 212, 0.20);
+    border-radius: 7px;
+}
+
+.neko-warning {
+    white-space: normal;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-left-width: 3px;
+    border-left-color: rgb(222, 165, 72);
+    background-color: rgba(222, 165, 72, 0.10);
+    color: rgb(225, 196, 145);
+}
+
+.neko-error {
+    white-space: normal;
+    padding: 10px;
+    margin-top: 8px;
+    color: rgb(244, 157, 157);
+    background-color: rgba(180, 58, 58, 0.14);
+    border-radius: 5px;
+}
+
+.neko-primary-button,
+.neko-quiet-button {
+    height: 28px;
+    min-width: 68px;
+    border-radius: 5px;
+}
+
+.neko-primary-button {
+    background-color: rgb(62, 118, 185);
+    border-color: rgb(86, 151, 229);
+    color: white;
+}
+
+.neko-quiet-button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgb(200, 210, 222);
+}
+
+.neko-footer {
+    height: 28px;
+    min-height: 28px;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: rgb(20, 25, 31);
+    border-top-width: 1px;
+    border-top-color: rgba(116, 151, 190, 0.15);
+}
+
+.neko-status {
+    flex-grow: 1;
+    font-size: 10px;
+    color: rgb(132, 146, 163);
+}
+
+.neko-support {
+    font-size: 10px;
+    color: rgb(111, 165, 232);
+}

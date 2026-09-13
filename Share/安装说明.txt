@@ -1,0 +1,38 @@
+Neko Themes Plus {{VERSION}} 安装说明
+================================
+
+适用环境：
+- Windows 10 / Windows 11
+- Unity 2022.3 LTS
+- 正式目标版本：Unity 2022.3.42f1
+
+安装步骤：
+1. 解压收到的 NekoThemesPlus-{{VERSION}}-Windows.zip。
+2. 用 Unity 打开你的项目。
+3. 打开 Window > Package Manager。
+4. 点击左上角的 +。
+5. 选择 Add package from tarball...。
+6. 选择 com.neko.themesplus-{{VERSION}}.tgz。
+7. 等待 Unity 编译完成。
+8. 打开 Window > Neko Themes Plus > 设置。
+9. 在“背景”页面选择一张 PNG、JPG 或 JPEG 图片。
+
+分享同一套外观：
+1. 发送方在“预设 > 分享主题”中点击“导出主题”。
+2. 把生成的 .nekotheme 文件发给对方。
+3. 接收方安装插件后，在同一页面点击“导入主题”。
+4. 主题文件会携带壁纸和视觉参数，不携带 Mica/Acrylic 等机器相关实验开关。
+
+卸载前恢复外观：
+1. 打开 Neko Themes Plus 的“高级”页面。
+2. 点击“恢复 Unity”；或使用 Tools > Neko Themes Plus > 停用。
+3. 然后可在 Package Manager 中移除插件。
+
+注意：
+- 插件仅作用于 Unity Editor，不会进入游戏构建。
+- Scene View 和 Game View 默认关闭；开启时也不会修改相机渲染画面。
+- Mica、Acrylic、原生玻璃等 Windows 效果属于实验功能，默认关闭。
+- 背景图片保存的是本机绝对路径，不会包含在插件包中。
+- 如果 Unity 异常退出后插件进入 Safe Mode，可在设置窗口点击“正常启用”。
+
+SHA256SUMS.txt 可用于确认 tgz 文件传输后没有损坏。
