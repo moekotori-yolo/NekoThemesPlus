@@ -246,26 +246,66 @@ public static class NekoThemesPlusReleaseSmoke
         }
 
         var themePath = Path.Combine(Path.GetTempPath(), "NekoThemesPlusReleaseSmoke.nekotheme");
+        var imagePath = Path.Combine(Path.GetTempPath(), "NekoThemesPlusReleaseSmoke.png");
+        string importedWindowPath = null;
         try
         {
             var themeType = Type.GetType("NekoThemesPlus.Theme.NekoThemeImportExport, NekoThemesPlus.Editor", false);
             var export = themeType == null ? null : themeType.GetMethod("Export", BindingFlags.Static | BindingFlags.Public);
             var import = themeType == null ? null : themeType.GetMethod("Import", BindingFlags.Static | BindingFlags.Public);
-            if (export == null || import == null)
+            var backgroundType = Type.GetType("NekoThemesPlus.Background.BackgroundManager, NekoThemesPlus.Editor", false);
+            var windowKindType = Type.GetType("NekoThemesPlus.Windows.WindowKind, NekoThemesPlus.Editor", false);
+            var setWindow = backgroundType == null ? null : backgroundType.GetMethod("SetWindowBackground", BindingFlags.Static | BindingFlags.Public);
+            var clearWindow = backgroundType == null ? null : backgroundType.GetMethod("ClearWindowBackground", BindingFlags.Static | BindingFlags.Public);
+            var getWindowPath = backgroundType == null ? null : backgroundType.GetMethod("GetBackgroundPath", BindingFlags.Static | BindingFlags.Public);
+            var getWindowTexture = backgroundType == null ? null : backgroundType.GetMethod("GetProcessedTexture", BindingFlags.Static | BindingFlags.Public);
+            var releaseWindowCache = backgroundType == null ? null : backgroundType.GetMethod("ReleaseWindowCache", BindingFlags.Static | BindingFlags.Public);
+            if (export == null || import == null || windowKindType == null ||
+                setWindow == null || clearWindow == null || getWindowPath == null ||
+                getWindowTexture == null || releaseWindowCache == null)
             {
-                failures.Add("theme import/export API was not found");
+                failures.Add("theme/per-window background API was not found");
             }
             else
             {
+                File.WriteAllBytes(imagePath, Convert.FromBase64String(
+                    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="));
+                object hierarchy = Enum.Parse(windowKindType, "Hierarchy");
+                if (!(bool)setWindow.Invoke(null, new[] { hierarchy, (object)imagePath }))
+                    failures.Add("per-window background could not be set");
+
+                var textureArgs = new object[] { hierarchy, -9137, new Rect(0f, 0f, 320f, 240f), null };
+                var windowTexture = getWindowTexture.Invoke(null, textureArgs) as Texture;
+                Rect windowUv = textureArgs[3] is Rect ? (Rect)textureArgs[3] : new Rect();
+                if (windowTexture == null || windowTexture.width != 320 || windowTexture.height != 240)
+                    failures.Add("per-window GPU texture was not built at the requested size");
+                if (windowUv != new Rect(0f, 0f, 1f, 1f))
+                    failures.Add("per-window GPU texture did not use local full-image UVs");
+                releaseWindowCache.Invoke(null, new object[] { -9137 });
+
                 var exportArgs = new object[] { themePath, null };
                 var exported = (bool)export.Invoke(null, exportArgs);
                 if (!exported || !File.Exists(themePath))
                     failures.Add("theme export failed: " + (exportArgs[1] ?? "no message"));
                 else
                 {
+                    string json = File.ReadAllText(themePath);
+                    if (!json.Contains("\"schemaVersion\": 2") ||
+                        !json.Contains("\"hierarchyBackgroundBase64\""))
+                        failures.Add("theme did not contain schema 2 per-window image data");
+
+                    clearWindow.Invoke(null, new[] { hierarchy });
                     var importArgs = new object[] { themePath, null };
                     if (!(bool)import.Invoke(null, importArgs))
                         failures.Add("theme import failed: " + (importArgs[1] ?? "no message"));
+                    else
+                    {
+                        importedWindowPath = getWindowPath.Invoke(null, new[] { hierarchy }) as string;
+                        if (string.IsNullOrEmpty(importedWindowPath) || !File.Exists(importedWindowPath))
+                            failures.Add("theme import did not restore the per-window image");
+                    }
+
+                    clearWindow.Invoke(null, new[] { hierarchy });
                 }
             }
         }
@@ -276,6 +316,9 @@ public static class NekoThemesPlusReleaseSmoke
         finally
         {
             if (File.Exists(themePath)) File.Delete(themePath);
+            if (File.Exists(imagePath)) File.Delete(imagePath);
+            if (!string.IsNullOrEmpty(importedWindowPath) && File.Exists(importedWindowPath))
+                File.Delete(importedWindowPath);
         }
 
         if (failures.Count > 0)

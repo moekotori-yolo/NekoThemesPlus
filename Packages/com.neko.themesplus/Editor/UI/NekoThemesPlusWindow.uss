@@ -137,6 +137,14 @@
     margin-right: 8px;
 }
 
+.neko-window-background {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(123, 157, 196, 0.12);
+}
+
 .neko-preview {
     height: 270px;
     min-height: 180px;

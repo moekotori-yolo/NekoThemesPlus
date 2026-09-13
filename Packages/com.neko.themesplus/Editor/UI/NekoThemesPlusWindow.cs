@@ -309,6 +309,18 @@ namespace NekoThemesPlus.UI
             AddPreview(imageCard);
             AddBackgroundError(imageCard);
 
+            VisualElement windowBackgrounds = AddCard(
+                T("区域独立背景", "Per-window backgrounds"),
+                T("为常用区域选择单独图片；未选择时自动继承上面的全局背景。每个窗口实例会按自己的尺寸处理图片。", "Choose a separate image for each common area. Empty entries inherit the global background, and every window instance is processed at its own size."));
+            AddWindowBackgroundRow(windowBackgrounds, WindowKind.Hierarchy, T("层级", "Hierarchy"));
+            AddWindowBackgroundRow(windowBackgrounds, WindowKind.Inspector, T("检视器", "Inspector"));
+            AddWindowBackgroundRow(windowBackgrounds, WindowKind.Project, T("项目", "Project"));
+            AddWindowBackgroundRow(windowBackgrounds, WindowKind.Console, T("控制台", "Console"));
+            AddMessage(
+                T("Scene View 和 Game View 继续使用安全工具栏模式，不允许独立图片覆盖相机区域。", "Scene View and Game View remain in safe toolbar mode; independent images never cover camera output."),
+                "neko-warning",
+                windowBackgrounds);
+
             VisualElement adjustments = AddCard(T("图像调整", "Image adjustments"), T("下列参数由缓存式 GPU 管线处理。", "These controls are applied by the cached GPU processing pipeline."));
             AddSlider(adjustments, T("亮度", "Brightness"), settings.brightness, 0f, 2f, value => settings.brightness = value, true);
             AddSlider(adjustments, T("饱和度", "Saturation"), settings.saturation, 0f, 2f, value => settings.saturation = value, true);
@@ -387,6 +399,7 @@ namespace NekoThemesPlus.UI
             diagnostics.Add(new Label(T("插件版本：", "Plugin version: ") + NekoThemesPlusConstants.Version));
             diagnostics.Add(new Label(T("主窗口区域：", "Main window rect: ") + (found ? mainRect.ToString() : T("本地模式", "Local mode"))));
             diagnostics.Add(new Label(T("处理后纹理：", "Processed texture: ") + (processed == Vector2Int.zero ? T("无", "None") : processed.x + " × " + processed.y)));
+            diagnostics.Add(new Label(T("区域独立背景：", "Per-window backgrounds: ") + BackgroundManager.ActiveOverrideCount + " / 4"));
             diagnostics.Add(new Label("Safe Mode：" + (NekoThemesPlusSafeMode.IsActive ? T("开启", "On") : T("关闭", "Off"))));
             diagnostics.Add(new Label(T("检测到的系统：", "Detected system: ") + WindowsVersionHelper.DisplayName));
             diagnostics.Add(new Label(T("已发现窗口：", "Discovered windows: ") + EditorWindowRegistry.WindowCount));
@@ -553,6 +566,72 @@ namespace NekoThemesPlus.UI
 
             BackgroundManager.SetBackground(path);
             SetStatus(string.IsNullOrEmpty(BackgroundManager.LastError) ? T("背景已加载", "Background loaded") : BackgroundManager.LastError);
+            ShowPage(currentPage);
+        }
+
+        private void AddWindowBackgroundRow(VisualElement parent, WindowKind kind, string label)
+        {
+            VisualElement group = new VisualElement();
+            group.AddToClassList("neko-window-background");
+
+            string path = BackgroundManager.GetBackgroundPath(kind);
+            TextField pathField = new TextField(label)
+            {
+                value = path,
+                isReadOnly = true
+            };
+            group.Add(pathField);
+
+            VisualElement buttons = AddRow(group);
+            Button choose = new Button(delegate { ChooseWindowBackground(kind); })
+            {
+                text = T("选择独立图片", "Choose Override")
+            };
+            choose.AddToClassList("neko-primary-button");
+            buttons.Add(choose);
+
+            Button inherit = new Button(delegate
+            {
+                BackgroundManager.ClearWindowBackground(kind);
+                SetStatus(label + T("已恢复使用全局背景", " now inherits the global background"));
+                ShowPage(currentPage);
+            })
+            {
+                text = T("使用全局", "Use Global")
+            };
+            inherit.AddToClassList("neko-quiet-button");
+            inherit.SetEnabled(!string.IsNullOrWhiteSpace(path));
+            buttons.Add(inherit);
+
+            string error = BackgroundManager.GetWindowError(kind);
+            if (!string.IsNullOrEmpty(error))
+            {
+                AddMessage(error, "neko-error", group);
+            }
+
+            parent.Add(group);
+        }
+
+        private void ChooseWindowBackground(WindowKind kind)
+        {
+            string currentPath = BackgroundManager.GetBackgroundPath(kind);
+            string directory = !string.IsNullOrEmpty(currentPath) && File.Exists(currentPath)
+                ? Path.GetDirectoryName(currentPath)
+                : Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            string path = EditorUtility.OpenFilePanel(
+                T("选择区域独立背景", "Select Per-window Background"),
+                directory,
+                "png,jpg,jpeg");
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
+            bool loaded = BackgroundManager.SetWindowBackground(kind, path);
+            string error = BackgroundManager.GetWindowError(kind);
+            SetStatus(loaded
+                ? T("区域独立背景已加载", "Per-window background loaded")
+                : error);
             ShowPage(currentPage);
         }
 

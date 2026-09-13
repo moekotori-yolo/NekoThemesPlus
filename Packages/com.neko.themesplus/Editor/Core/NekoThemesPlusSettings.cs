@@ -10,6 +10,10 @@ namespace NekoThemesPlus.Core
         public NekoThemesPlusLanguage language = NekoThemesPlusLanguage.SimplifiedChinese;
         public bool enabled = true;
         public string backgroundPath = string.Empty;
+        public string hierarchyBackgroundPath = string.Empty;
+        public string inspectorBackgroundPath = string.Empty;
+        public string projectBackgroundPath = string.Empty;
+        public string consoleBackgroundPath = string.Empty;
         public BackgroundImageMode backgroundMode = BackgroundImageMode.Fill;
         [Range(1f, 4f)] public float backgroundZoom = 1f;
         public Vector2 backgroundAlignment = new Vector2(0.5f, 0.5f);
@@ -65,6 +69,10 @@ namespace NekoThemesPlus.Core
             language = NekoThemesPlusLanguage.SimplifiedChinese;
             enabled = true;
             backgroundPath = string.Empty;
+            hierarchyBackgroundPath = string.Empty;
+            inspectorBackgroundPath = string.Empty;
+            projectBackgroundPath = string.Empty;
+            consoleBackgroundPath = string.Empty;
             backgroundMode = BackgroundImageMode.Fill;
             backgroundZoom = 1f;
             backgroundAlignment = new Vector2(0.5f, 0.5f);

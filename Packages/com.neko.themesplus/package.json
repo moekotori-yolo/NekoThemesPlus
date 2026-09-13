@@ -1,6 +1,6 @@
 {
   "name": "com.neko.themesplus",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "displayName": "Neko Themes Plus",
   "description": "面向 Windows 的 Unity 编辑器全局壁纸与玻璃主题扩展，支持简体中文和 English。",
   "unity": "2022.3",

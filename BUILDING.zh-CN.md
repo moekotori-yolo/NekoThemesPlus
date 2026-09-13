@@ -33,7 +33,7 @@
 仓库已经包含：
 
 - `.github/workflows/ci.yml`：提交和 PR 自动校验、打包；配置许可证后运行 Unity EditMode 测试。
-- `.github/workflows/release.yml`：推送 `v0.2.0` 这类标签后自动创建 GitHub Release。
+- `.github/workflows/release.yml`：推送 `v0.3.0` 这类标签后自动创建 GitHub Release。
 - `Scripts/Validate-Repository.ps1`：版本、文档、JSON、`.meta`、GUID 和第三方声明检查。
 - `Scripts/Get-ReleaseNotes.ps1`：从 CHANGELOG 提取当前版本发布说明。
 

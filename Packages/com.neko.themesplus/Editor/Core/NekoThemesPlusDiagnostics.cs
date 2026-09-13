@@ -31,6 +31,11 @@ namespace NekoThemesPlus.Core
             report.AppendLine("处理后背景：" + (resolution == Vector2Int.zero ? "无" : resolution.x + " × " + resolution.y));
             report.AppendLine("背景路径：" + (string.IsNullOrEmpty(settings.backgroundPath) ? "未选择" : settings.backgroundPath));
             report.AppendLine("背景状态：" + (string.IsNullOrEmpty(BackgroundManager.LastError) ? "就绪" : BackgroundManager.LastError));
+            report.AppendLine("区域独立背景数：" + BackgroundManager.ActiveOverrideCount);
+            AppendWindowBackground(report, "Hierarchy", WindowKind.Hierarchy);
+            AppendWindowBackground(report, "Inspector", WindowKind.Inspector);
+            AppendWindowBackground(report, "Project", WindowKind.Project);
+            AppendWindowBackground(report, "Console", WindowKind.Console);
             report.AppendLine();
 
             report.AppendLine("窗口注册数：" + EditorWindowRegistry.WindowCount);
@@ -55,6 +60,15 @@ namespace NekoThemesPlus.Core
             report.AppendLine("  DockChrome=" + settings.enableDockChrome + ", strength=" + settings.borderOpacity);
             report.AppendLine("  NativeGlass=" + settings.enableNativeGlass);
             return report.ToString();
+        }
+
+        private static void AppendWindowBackground(StringBuilder report, string label, WindowKind kind)
+        {
+            string path = BackgroundManager.GetBackgroundPath(kind);
+            string error = BackgroundManager.GetWindowError(kind);
+            report.AppendLine("  " + label + "背景=" +
+                              (string.IsNullOrEmpty(path) ? "继承全局" : path) +
+                              (string.IsNullOrEmpty(error) ? string.Empty : "，错误=" + error));
         }
 
         public static void LogAndCopyReport()

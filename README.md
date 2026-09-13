@@ -15,6 +15,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 - Fill、Fit、Stretch、Center、Tile 五种布局，以及缩放和构图位置控制。
 - GPU 亮度、饱和度、对比度、色调、不透明度和多级模糊。
 - Hierarchy、Inspector、Project、Console 独立开关与透明度。
+- Hierarchy、Inspector、Project、Console 支持独立背景图片，留空时继承全局壁纸。
 - Scene View / Game View 安全模式，不修改相机渲染内容。
 - HostView 绘制桥、Dock 标签栏与边框染色。
 - 简体中文 / English 设置界面、8 个预设和诊断报告。
@@ -28,7 +29,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 | Unity | `2022.3.x` LTS；正式目标 `2022.3.42f1` |
 | 操作系统 | Windows 10 / Windows 11 |
 | Player 构建 | 不参与；插件程序集仅限 Editor |
-| 当前版本 | `0.2.0` |
+| 当前版本 | `0.3.0` |
 
 本项目也在 Unity `2022.3.22f1c1` 上完成过隔离安装与编译自检。其他 Unity 大版本默认不会启用内部窗口挂钩。
 
@@ -48,7 +49,7 @@ NekoThemesPlus 是一个仅作用于 Unity Editor 的全局壁纸与玻璃主题
 在 Package Manager 中选择 **Add package from git URL...**，输入：
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.2.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.3.0
 ```
 
 ### 开发者安装

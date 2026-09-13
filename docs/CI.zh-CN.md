@@ -47,8 +47,8 @@ Unity 的云端 Editor 运行需要有效许可证。仓库使用 GameCI `unity-
 然后创建与版本完全一致的标签：
 
 ```powershell
-git tag -a v0.2.0 -m "NekoThemesPlus 0.2.0"
-git push origin v0.2.0
+git tag -a v0.3.0 -m "NekoThemesPlus 0.3.0"
+git push origin v0.3.0
 ```
 
 Release 工作流会：
@@ -75,6 +75,6 @@ Release 工作流会：
 
 - **Unity job skipped**：确认仓库 Variable `UNITY_CI_ENABLED` 精确为 `true`。
 - **许可证失败**：重新生成 Secret，并检查 GameCI Licensing 文档。
-- **tag/version mismatch**：标签必须是 `v` 加 package.json 版本，例如 `v0.2.0`。
+- **tag/version mismatch**：标签必须是 `v` 加 package.json 版本，例如 `v0.3.0`。
 - **找不到 Shader**：确认 Shader 和 `.meta` 已提交，并检查 Actions 上传的 test artifacts。
 - **Release 已存在**：工作流会更新说明并用新构建覆盖同名附件。

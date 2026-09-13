@@ -1,11 +1,11 @@
-# Neko Themes Plus 0.2.0 中文使用手册
+# Neko Themes Plus 0.3.0 中文使用手册
 
 ## 一、安装成品包
 
 1. 启动 Unity 2022.3 LTS 并打开目标项目。
 2. 打开 **Window > Package Manager**。
 3. 点击左上角 **+**，选择 **Add package from tarball...**。
-4. 选择 `com.neko.themesplus-0.2.0.tgz`。
+4. 选择 `com.neko.themesplus-0.3.0.tgz`。
 5. 等待 Unity 编译完成，Console 中不应出现 NekoThemesPlus 编译错误。
 
 如果使用源码，选择 **Add package from disk...**，然后打开 `Packages/com.neko.themesplus/package.json`。
@@ -21,11 +21,18 @@
    - 全局面板不透明度：`0.65–0.78`
 5. 进入“窗口”，确认层级、检视器、项目、控制台已启用。
 
-需要把当前外观分享给别人时，进入“预设 > 分享主题 > 导出主题”。生成的 `.nekotheme` 会内嵌壁纸和视觉参数；对方安装 NekoThemesPlus 0.2.0 后，在同一页面点击“导入主题”即可。原生 Windows 实验设置、强制版本兼容和调试开关不会随主题导入。
+需要把当前外观分享给别人时，进入“预设 > 分享主题 > 导出主题”。生成的 `.nekotheme` 会内嵌全局壁纸、四张区域壁纸和视觉参数；单张图片上限 64 MB、全部图片合计上限 96 MB。对方安装 NekoThemesPlus 0.3.0 后，在同一页面点击“导入主题”即可。旧版 Schema 1 主题仍可导入。原生 Windows 实验设置、强制版本兼容和调试开关不会随主题导入。
 
 修改会自动写入当前项目的 `ProjectSettings/NekoThemesPlusSettings.asset`。背景图片保存的是绝对路径；移动或删除图片后，需要重新选择。
 
 ## 三、背景显示模式
+
+“区域独立背景”提供层级、检视器、项目和控制台四个条目：
+
+1. 点击“选择独立图片”为该区域覆盖全局壁纸。
+2. 点击“使用全局”清除覆盖并立即恢复全局连续背景。
+3. 每个实际窗口按自己的尺寸缓存处理结果，因此多个 Inspector 可以正常使用同一张独立图片。
+4. 独立图片共用全局的显示模式、缩放、构图、调色、不透明度和模糊参数。
 
 - **填充（Fill）**：保持比例并裁切，铺满整个 Unity 主窗口，推荐使用。
 - **适应（Fit）**：保持比例显示完整图片，空白区域透明。

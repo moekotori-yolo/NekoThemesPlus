@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NekoThemesPlus.Background;
 using NekoThemesPlus.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -122,6 +123,7 @@ namespace NekoThemesPlus.Windows
                 foreach (int instanceId in removed)
                 {
                     WindowHookManager.Detach(instanceId);
+                    BackgroundManager.ReleaseWindowCache(instanceId);
                     Tracked.Remove(instanceId);
                 }
             }

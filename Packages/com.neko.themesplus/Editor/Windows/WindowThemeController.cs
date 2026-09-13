@@ -80,8 +80,13 @@ namespace NekoThemesPlus.Windows
                 themedRect.height = Mathf.Min(24f, themedRect.height);
             }
 
-            Rect uv = BackgroundCoordinateSystem.GetUvRect(themedRect);
-            backgroundElement.SetBackground(BackgroundManager.ProcessedTexture, uv);
+            Rect uv;
+            Texture texture = BackgroundManager.GetProcessedTexture(
+                kind,
+                window.GetInstanceID(),
+                themedRect,
+                out uv);
+            backgroundElement.SetBackground(texture, uv);
 
             NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
             float opacity = Mathf.Clamp01(settings.globalPanelOpacity * GetWindowOpacity(settings));

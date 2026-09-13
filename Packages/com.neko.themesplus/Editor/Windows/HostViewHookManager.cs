@@ -339,7 +339,7 @@ namespace NekoThemesPlus.Windows
                 {
                     try
                     {
-                        DrawBackground(window);
+                        DrawBackground(window, kind);
                         NekoThemesPlusSettings settings = NekoThemesPlusSettings.instance;
                         // GUI.backgroundColor is multiplicative. Feeding a dark panel colour
                         // directly would crush the UI to near-black, so convert it into a gentle
@@ -375,14 +375,8 @@ namespace NekoThemesPlus.Windows
                 }
             }
 
-            private void DrawBackground(EditorWindow window)
+            private void DrawBackground(EditorWindow window, WindowKind kind)
             {
-                Texture texture = BackgroundManager.ProcessedTexture;
-                if (texture == null)
-                {
-                    return;
-                }
-
                 Rect localRect = new Rect(0f, 0f, window.position.width, window.position.height);
                 Vector2 screenPoint = GUIUtility.GUIToScreenPoint(Vector2.zero);
                 Rect screenRect = new Rect(screenPoint.x, screenPoint.y, localRect.width, localRect.height);
@@ -391,7 +385,17 @@ namespace NekoThemesPlus.Windows
                     lastScreenRect = screenRect;
                     BroadcastLayoutChange(hostView);
                 }
-                Rect uv = BackgroundCoordinateSystem.GetUvRect(screenRect);
+                Rect uv;
+                Texture texture = BackgroundManager.GetProcessedTexture(
+                    kind,
+                    window.GetInstanceID(),
+                    screenRect,
+                    out uv);
+                if (texture == null)
+                {
+                    return;
+                }
+
                 Color previous = GUI.color;
                 try
                 {

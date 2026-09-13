@@ -16,6 +16,7 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Fill, Fit, Stretch, Center, and Tile modes, plus zoom and composition controls.
 - GPU brightness, saturation, contrast, hue, opacity, and multi-pass blur.
 - Independent Hierarchy, Inspector, Project, and Console visibility and opacity.
+- Independent Hierarchy, Inspector, Project, and Console images with automatic global-background inheritance.
 - Safe Scene/Game View handling that leaves camera output untouched.
 - HostView paint bridge and configurable dock/tab chrome tint.
 - Simplified Chinese and English UI, eight presets, safe mode, and a copyable diagnostic report.
@@ -27,7 +28,7 @@ NekoThemesPlus is an editor-only wallpaper and glass-theme extension for Unity. 
 - Unity `2022.3.x` LTS; primary target: `2022.3.42f1`
 - Windows 10 and Windows 11
 - Editor only; no runtime/player assembly is included
-- Current version: `0.2.0`
+- Current version: `0.3.0`
 
 The release pipeline has also been smoke-tested with Unity `2022.3.22f1c1`. Internal hooks are disabled by default outside Unity 2022.3.
 
@@ -42,7 +43,7 @@ Download `NekoThemesPlus-<version>-Windows.zip` from Releases, extract it, then 
 Replace `OWNER` with the repository owner:
 
 ```text
-https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.2.0
+https://github.com/moekotori-yolo/NekoThemesPlus.git?path=/Packages/com.neko.themesplus#v0.3.0
 ```
 
 After compilation, open **Window > Neko Themes Plus > Settings**.
